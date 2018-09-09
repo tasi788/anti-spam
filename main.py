@@ -1,6 +1,5 @@
 __author__      = '@DingChen-Tsai'
 
-
 import time
 import telepot
 from configparser import SafeConfigParser
@@ -29,8 +28,6 @@ def handle(msg):
 				bot.deleteMessage((chat_id, message_id))
 				print(tmp)
 				break
-	#elif content_type == 'text':
-	#	say = msg['text'].lower()
 
 #登入資訊
 parser = SafeConfigParser()
