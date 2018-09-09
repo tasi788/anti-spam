@@ -8,7 +8,7 @@ from configparser import SafeConfigParser
 
 # 定義telegram各項參數
 def handle(msg):
-	# pp(msg)
+	#pp(msg)
 	content_type, chat_type, chat_id, msg_date, message_id = telepot.glance(
 		msg, long=True)
 	user_id = msg['from']['id']
@@ -69,6 +69,12 @@ def handle(msg):
 						)
 					bot.sendMessage(fuckchannel, tmp)
 					print(tmp)
+	elif content_type == 'text':
+		say = msg['text'].lower()
+		if 'reply_to_message' in msg.keys() and user_id == int(owner) and say == '@admin':
+			reply_msgId = msg['reply_to_message']['message_id']
+			for x in [reply_msgId, message_id]:
+				bot.deleteMessage((chat_id, x))
 
 
 
