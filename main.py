@@ -27,7 +27,12 @@ def handle(msg):
 				'group id: {gId}\n' \
 				'Invited by\n' \
 				'username: {username}\n' \
-				'uid: {user_id}'
+				'uid: {user_id}'.format(
+					gName=gName,
+					gId=gId,
+					username=username,
+					user_id=user_id
+				)
 			print(tmp)
 			bot.sendMessage(fuckchannel, tmp)
 
@@ -50,6 +55,7 @@ def handle(msg):
 					bot.kickChatMember(
 						chat_id, user_id, None)
 					bot.deleteMessage((chat_id, message_id))
+					print(tmp)
 					break
 				except telepot.exception.TelegramError as e:
 					tmp = '失敗惹 QQ\n' \
@@ -63,8 +69,8 @@ def handle(msg):
 							user_id=user_id
 						)
 					bot.sendMessage(fuckchannel, tmp)
-			print(tmp)
-				
+					print(tmp)
+
 
 
 # 登入資訊
