@@ -12,12 +12,12 @@ def handle(msg):
 	content_type, chat_type, chat_id, msg_date, message_id = telepot.glance(
 		msg, long=True)
 	user_id = msg['from']['id']
-	botId = 621655605
+	botId = bot_apitoken[:bot_apitoken.find(":")]
 	fuckchannel = -1001229303409
+	username = msg['from']['first_name']
 	try:
-		username = msg['from']['first_name'] + ' ' + msg['from']['last_name']
-	except:
-		username = msg['from']['first_name']
+		username += ' ' + msg['from']['last_name']
+	except: pass		
 	if content_type == 'new_chat_member':
 		gId = msg['chat']['id']
 		gName = msg['chat']['title']
@@ -53,7 +53,7 @@ def handle(msg):
 				bot.sendMessage(fuckchannel, tmp)
 				try:
 					bot.kickChatMember(
-						chat_id, user_id, None)
+						chat_id, user_id)
 					bot.deleteMessage((chat_id, message_id))
 					print(tmp)
 					break
