@@ -12,12 +12,11 @@ def handle(msg):
 	content_type, chat_type, chat_id, msg_date, message_id = telepot.glance(
 		msg, long=True)
 	user_id = msg['from']['id']
-	botId = bot_apitoken[:bot_apitoken.find(":")]
+	botId = bot_apitoken.split(':')[0]
 	fuckchannel = -1001229303409
 	username = msg['from']['first_name']
-	try:
+	if 'last_name' in msg['from'].keys()
 		username += ' ' + msg['from']['last_name']
-	except: pass		
 	if content_type == 'new_chat_member':
 		gId = msg['chat']['id']
 		gName = msg['chat']['title']
