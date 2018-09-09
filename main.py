@@ -15,9 +15,8 @@ def handle(msg):
 	botId = bot_apitoken[:bot_apitoken.find(":")]
 	fuckchannel = -1001229303409
 	username = msg['from']['first_name']
-	try:
+	if  msg['from']['last_name']:
 		username += ' ' + msg['from']['last_name']
-	except: pass		
 	if content_type == 'new_chat_member':
 		gId = msg['chat']['id']
 		gName = msg['chat']['title']
