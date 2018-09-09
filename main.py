@@ -3,7 +3,12 @@ __author__      = '@DingChen-Tsai'
 import time
 import telepot
 from configparser import SafeConfigParser
-
+'''
+{'chat': {'id': -1001216679211,
+          'title': '8cat Chat 超好玩的社群',
+          'type': 'supergroup',
+          'username': 'cat8chat'},
+'''
 #定義telegram各項參數
 def handle(msg):
 	content_type, chat_type, chat_id = telepot.glance(msg)
@@ -15,14 +20,22 @@ def handle(msg):
 	except:
 		username = msg['from']['first_name']
 	if content_type == 'new_chat_member':
+		gId = msg['chat']['id']
+		gName = msg['chat']['title']
 		with open('fuckdict.txt') as f:
 			fuckname = f.read().replace('\n', '').split(',')
 		for x in fuckname:
 			if x in username:
-				tmp = f'Banned\n' \
-				f'name: {username}\n' \
-				f'uid: {user_id}'
-
+				tmp = 'Banned\n' \
+				'group id: {gId}\n' \
+				'group name: {gName}\n' \
+				'name: {username}\n' \
+				'uid: {user_id}\n'.format(
+					gId = gId,
+					gName = gName,
+					username = username,
+					user_id = user_id
+				)
 				bot.sendMessage(-1001229303409, tmp)
 				bot.kickChatMember(chat_id, user_id, until_date=int(time.time()))
 				bot.deleteMessage((chat_id, message_id))
