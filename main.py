@@ -66,11 +66,11 @@ def handle(msg):
 						username=username,
 						user_id=user_id
 					)
-				bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
 				try:
 					bot.kickChatMember(
 						chat_id, user_id)
 					bot.deleteMessage((chat_id, message_id))
+					bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
 					print(tmp)
 					break
 				except Exception as e:
@@ -80,7 +80,7 @@ def handle(msg):
 						tmp = '我踢不走[這個廣告帳號](tg://user?id={user_id})\n' \
 							'因為你沒給我濫權 (´･_･`)'.format(user_id=user_id)
 						bot.sendMessage(
-							chat_id, tmp, parse_mode='html', reply_markup=message_id)
+							chat_id, tmp, parse_mode='markdown', reply_markup=message_id)
 						bot.leaveChat(chat_id)
 						tmp = '離開惹\n' \
 							'group id: `{gId}`\n' \
@@ -93,6 +93,11 @@ def handle(msg):
 
 	elif content_type == 'text':
 		say = msg['text'].lower()
+
+		if say[:11] == '@admin fuck' and user_id == int(owner):
+			bot.kickChatMember(
+				chat_id, say[12:])
+
 		if 'reply_to_message' in msg.keys() and user_id == int(owner):
 			reply_msgId = msg['reply_to_message']['message_id']
 			reply_user_id = msg['reply_to_message']['from']['id']
@@ -111,6 +116,7 @@ def handle(msg):
 				fucknDel(chat_id, message_id, reply_user_id)
 			elif say == '@admin bang':
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
+
 
 
 
