@@ -5,10 +5,22 @@ import telepot
 from pprint import pprint as pp
 from configparser import SafeConfigParser
 
+'''
+log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
+作者在上面自己看。
+
+未來會不會加更多功能？
+可能會吧 我盡量 (´･_･`)
+
+如果有新的字詞要新增怎麼辦？
+到github丟issue, 沒問題的話看到會馬上merge。
+之後會新增即時新增吧
+'''
 
 # 定義telegram各項參數
+
+
 def handle(msg):
-	#pp(msg)
 	content_type, chat_type, chat_id, msg_date, message_id = telepot.glance(
 		msg, long=True)
 	user_id = msg['from']['id']
@@ -34,7 +46,7 @@ def handle(msg):
 					user_id=user_id
 				)
 			greeting = '咕嚕靈波（●´∀｀）ノ♡\n' \
-					'我沒有濫權就會自己離家出走唷'
+				'我沒有濫權就會自己離家出走唷'
 			bot.sendMessage(chat_id, greeting)
 			bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
 
@@ -60,17 +72,20 @@ def handle(msg):
 					print(tmp)
 					return
 				except Exception as e:
-					#Bad Request: message can't be deleted
+					# Bad Request: message can't be deleted
 					permission = 'Bad Request: not enough rights to restrict/unrestrict chat member'
 					if str(e.description) == permission:
 						tmp = '我踢不走[這個廣告帳號](tg://user?id={user_id})\n' \
-						'因為你沒給我濫權 (´･_･`)'.format(user_id=user_id)
-						bot.sendMessage(chat_id, tmp, parse_mode='html', reply_markup=message_id)
+							'因為你沒給我濫權 (´･_･`)'.format(user_id=user_id)
+						bot.sendMessage(
+							chat_id, tmp, parse_mode='html', reply_markup=message_id)
 						bot.leaveChat(chat_id)
 						tmp = '離開惹\n' \
 							'group id: `{gId}`\n' \
-							'group name: {gName}\n'.format(gId = gId, gName=gName)
-						bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
+							'group name: {gName}\n'.format(
+								gId=gId, gName=gName)
+						bot.sendMessage(fuckchannel, tmp,
+										parse_mode='markdown')
 					print(e.description)
 
 	elif content_type == 'text':
