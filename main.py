@@ -33,7 +33,9 @@ def handle(msg):
 					username=username,
 					user_id=user_id
 				)
-			print(tmp)
+			greeting = '咕嚕靈波（●´∀｀）ノ♡\n' \
+					'我沒有濫權就會自己離家出走唷'
+			bot.sendMessage(chat_id, greeting)
 			bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
 
 		with open('fuckdict.txt') as f:
