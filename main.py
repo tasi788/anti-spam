@@ -23,11 +23,11 @@ def handle(msg):
 		gName = msg['chat']['title']
 		if msg['new_chat_member']['id'] == botId:
 			tmp = 'Invited\n' \
-				'group name: `{gName}`\n' \
-				'group id: `{gId}`\n' \
+				'group name: `{gName}` \n' \
+				'group id: `{gId}` \n' \
 				'Invited by\n' \
 				'username: {username}\n' \
-				'uid: `{user_id}`'.format(
+				'uid: `{user_id}` '.format(
 					gName=gName,
 					gId=gId,
 					username=username,
@@ -56,20 +56,20 @@ def handle(msg):
 						chat_id, user_id)
 					bot.deleteMessage((chat_id, message_id))
 					print(tmp)
-					break
+					return
 				except Exception as e:
 					#Bad Request: message can't be deleted
 					permission = 'Bad Request: not enough rights to restrict/unrestrict chat member'
-					if e.description[0] == permission:
-						tmp = '我踢不走這個人[{username}](tg://user?id={user_id})\n' \
-						'因為你沒給我濫權 (´･_･`)'
-						bot.sendMessage(chat_id, tmp, parse_mode='markdown')
+					if str(e.description) == permission:
+						tmp = '我踢不走[這個廣告帳號](tg://user?id={user_id})\n' \
+						'因為你沒給我濫權 (´･_･`)'.format(user_id=user_id)
+						bot.sendMessage(chat_id, tmp, parse_mode='html', reply_markup=message_id)
 						bot.leaveChat(chat_id)
 						tmp = '離開惹\n' \
 							'group id: `{gId}`\n' \
-							'group name: {gName}\n'
+							'group name: {gName}\n'.format(gId = gId, gName=gName)
 						bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
-					print(e.description[0])
+					print(e.description)
 
 	elif content_type == 'text':
 		say = msg['text'].lower()
