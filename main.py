@@ -1,6 +1,7 @@
 __author__ = '@DingChen-Tsai'
 
 import time
+import logging
 import telepot
 from pprint import pprint as pp
 from configparser import SafeConfigParser
@@ -21,6 +22,7 @@ log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
 
 
 def handle(msg):
+	#pp(msg)
 	content_type, chat_type, chat_id, msg_date, message_id = telepot.glance(
 		msg, long=True)
 	user_id = msg['from']['id']
@@ -70,7 +72,7 @@ def handle(msg):
 						chat_id, user_id)
 					bot.deleteMessage((chat_id, message_id))
 					print(tmp)
-					return
+					break
 				except Exception as e:
 					# Bad Request: message can't be deleted
 					permission = 'Bad Request: not enough rights to restrict/unrestrict chat member'
@@ -86,17 +88,30 @@ def handle(msg):
 								gId=gId, gName=gName)
 						bot.sendMessage(fuckchannel, tmp,
 										parse_mode='markdown')
-					print(e.description)
+					#print(e.description)
+					logging.warning(str(e.description))
 
 	elif content_type == 'text':
 		say = msg['text'].lower()
-		if 'reply_to_message' in msg.keys() and user_id == int(owner) and say == '@admin':
+		if 'reply_to_message' in msg.keys() and user_id == int(owner):
 			reply_msgId = msg['reply_to_message']['message_id']
-			try:
-				for x in [reply_msgId, message_id]:
-					bot.deleteMessage((chat_id, x))
-			except Exception as e:
-				print(e.description)
+			reply_user_id = msg['reply_to_message']['from']['id']
+
+			def fucknDel(chat_id, message_id, reply_user_id, bang=False):
+				try:
+					for x in [reply_msgId, message_id]:
+						bot.deleteMessage((chat_id, x))
+					if bang == True:
+						bot.kickChatMember(
+							chat_id, reply_user_id)
+				except Exception as e:
+					logging.warning(str(e.description))
+
+			if say == '@admin':
+				fucknDel(chat_id, message_id, reply_user_id)
+			elif say == '@admin bang':
+				fucknDel(chat_id, message_id, reply_user_id, bang=True)
+
 
 
 
