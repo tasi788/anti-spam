@@ -23,34 +23,34 @@ def handle(msg):
 		gName = msg['chat']['title']
 		if msg['new_chat_member']['id'] == botId:
 			tmp = 'Invited\n' \
-				'group name: {gName}\n' \
-				'group id: {gId}\n' \
+				'group name: `{gName}`\n' \
+				'group id: `{gId}`\n' \
 				'Invited by\n' \
 				'username: {username}\n' \
-				'uid: {user_id}'.format(
+				'uid: `{user_id}`'.format(
 					gName=gName,
 					gId=gId,
 					username=username,
 					user_id=user_id
 				)
 			print(tmp)
-			bot.sendMessage(fuckchannel, tmp)
+			bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
 
 		with open('fuckdict.txt') as f:
 			fuckname = f.read().replace('\n', '').split(',')
 		for x in fuckname:
 			if x in username:
 				tmp = 'Banned\n' \
-					'group id: {gId}\n' \
-					'group name: {gName}\n' \
+					'group id: `{gId}`\n' \
+					'group name: `{gName}`\n' \
 					'name: {username}\n' \
-					'uid: {user_id}\n'.format(
+					'uid: `{user_id}`\n'.format(
 						gId=gId,
 						gName=gName,
 						username=username,
 						user_id=user_id
 					)
-				bot.sendMessage(fuckchannel, tmp)
+				bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
 				try:
 					bot.kickChatMember(
 						chat_id, user_id)
