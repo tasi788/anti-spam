@@ -108,7 +108,7 @@ def handle(msg):
 				except Exception as e:
 					bot.sendMessage(chat_id, str(e.description))
 			else:
-				bot.deleteMessage((chat_id, tuser))
+				bot.deleteMessage((chat_id, message_id))
 				bot.kickChatMember(
 					chat_id, tuser)
 
