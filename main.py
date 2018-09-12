@@ -53,7 +53,8 @@ def handle(msg):
 			bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
 
 		with open('fuckdict.txt') as f:
-			fuckname = f.read().split('\n').remoce('')
+			fuckname = f.read().split('\n')
+			fuckname.remove('')
 		for x in fuckname:
 			if x in username:
 				tmp = 'Banned\n' \
