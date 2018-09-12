@@ -44,11 +44,11 @@ def handle(msg):
 		gName = msg['chat']['title']
 		if msg['new_chat_member']['id'] == botId:
 			tmp = 'Invited\n' \
-				'group name: `{gName}` \n' \
-				'group id: `{gId}` \n' \
+				'group name: <code>{gName}</code> \n' \
+				'group id: <code>{gId}</code> \n' \
 				'Invited by\n' \
 				'username: <a href="tg://user?id={user_id}">{username}</a>\n' \
-				'uid: `{user_id}` '.format(
+				'uid: <code>{user_id}</code> '.format(
 					gName=gName,
 					gId=gId,
 					username=username.replace('<', '&lt;').replace('>', '&gt;'),
@@ -60,10 +60,10 @@ def handle(msg):
 
 		if checkName(username) == True:
 			tmp = 'Banned\n' \
-				'group id: `{gId}`\n' \
-				'group name: `{gName}`\n' \
+				'group id: <code>{gId}</code>\n' \
+				'group name: <code>{gName}</code>\n' \
 				'name: <a href="tg://user?id={user_id}">{username}</a>\n' \
-				'uid: `{user_id}`\n'.format(
+				'uid: <code>{user_id}</code>\n'.format(
 					gId=gId,
 					gName=gName,
 					username=username.replace('<', '&lt;').replace('>', '&gt;').replace('&', '&amp;'),
@@ -96,13 +96,6 @@ def handle(msg):
 	elif content_type == 'text':
 		say = msg['text'].lower()
 		# 作者濫權部分。
-		'''if say == '/test':
-			tmp = 'name: <a href="tg://user?id={user_id}">{username}</a>\n'.format(
-				user_id = user_id,
-				username = username.replace('<', '&lt;').replace('>', '&gt;')
-			)
-			print(tmp)
-			bot.sendMessage(chat_id, tmp, parse_mode='html')'''
 		if say[:11] == '@admin fuck' and user_id == int(owner):
 			bot.kickChatMember(
 				chat_id, say[12:])
