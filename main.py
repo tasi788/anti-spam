@@ -21,13 +21,20 @@ log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
 # 定義telegram各項參數
 
 
+def checkName(username):
+	with open('fuckdict.txt', encoding='utf8') as f:
+		fuckname = f.read().split('\n')
+		fuckname.remove('')
+	for x in fuckname:
+		if x in username:
+			return True
+
+
 def handle(msg):
-	#pp(msg)
+	# pp(msg)
 	content_type, chat_type, chat_id, msg_date, message_id = telepot.glance(
 		msg, long=True)
 	user_id = msg['from']['id']
-	botId = int(bot_apitoken.split(':')[0])
-	fuckchannel = -1001229303409
 	username = msg['from']['first_name']
 	if 'last_name' in msg['from'].keys():
 		username += ' ' + msg['from']['last_name']
@@ -52,49 +59,43 @@ def handle(msg):
 			bot.sendMessage(chat_id, greeting)
 			bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
 
-		with open('fuckdict.txt') as f:
-			fuckname = f.read().split('\n')
-			fuckname.remove('')
-		for x in fuckname:
-			if x in username:
-				tmp = 'Banned\n' \
-					'group id: `{gId}`\n' \
-					'group name: `{gName}`\n' \
-					'name: {username}\n' \
-					'uid: `{user_id}`\n'.format(
-						gId=gId,
-						gName=gName,
-						username=username,
-						user_id=user_id
-					)
-				try:
-					bot.kickChatMember(
-						chat_id, user_id)
-					bot.deleteMessage((chat_id, message_id))
-					bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
-					print(tmp)
-					break
-				except Exception as e:
-					# Bad Request: message can't be deleted
-					permission = 'Bad Request: not enough rights to restrict/unrestrict chat member'
-					if str(e.description) == permission:
-						tmp = '我踢不走[這個廣告帳號](tg://user?id={user_id})\n' \
-							'因為你沒給我濫權 (´･_･`)'.format(user_id=user_id)
-						bot.sendMessage(
-							chat_id, tmp, parse_mode='markdown', reply_markup=message_id)
-						bot.leaveChat(chat_id)
-						tmp = '離開惹\n' \
-							'group id: `{gId}`\n' \
-							'group name: {gName}\n'.format(
-								gId=gId, gName=gName)
-						bot.sendMessage(fuckchannel, tmp,
-										parse_mode='markdown')
-					#print(e.description)
-					logging.warning(str(e.description))
+		if checkName(username) == True:
+			tmp = 'Banned\n' \
+				'group id: `{gId}`\n' \
+				'group name: `{gName}`\n' \
+				'name: {username}\n' \
+				'uid: `{user_id}`\n'.format(
+					gId=gId,
+					gName=gName,
+					username=username,
+					user_id=user_id
+				)
+			try:
+				bot.kickChatMember(
+					chat_id, user_id)
+				bot.deleteMessage((chat_id, message_id))
+				bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
+				print(tmp)
+			except Exception as e:
+				# Bad Request: message can't be deleted
+				permission = 'Bad Request: not enough rights to restrict/unrestrict chat member'
+				if str(e.description) == permission:
+					tmp = '我踢不走[這個廣告帳號](tg://user?id={user_id})\n' \
+						'因為你沒給我濫權 (´･_･`)'.format(user_id=user_id)
+					bot.sendMessage(
+						chat_id, tmp, parse_mode='markdown', reply_markup=message_id)
+					bot.leaveChat(chat_id)
+					tmp = '離開惹\n' \
+						'group id: `{gId}`\n' \
+						'group name: {gName}\n'.format(
+							gId=gId, gName=gName)
+					bot.sendMessage(fuckchannel, tmp,
+									parse_mode='markdown')
+				logging.warning(str(e.description))
 
 	elif content_type == 'text':
 		say = msg['text'].lower()
-
+		# 作者濫權部分。
 		if say[:11] == '@admin fuck' and user_id == int(owner):
 			bot.kickChatMember(
 				chat_id, say[12:])
@@ -112,13 +113,10 @@ def handle(msg):
 							chat_id, reply_user_id)
 				except Exception as e:
 					logging.warning(str(e.description))
-
 			if say == '@admin':
 				fucknDel(chat_id, message_id, reply_user_id)
 			elif say == '@admin bang':
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
-
-
 
 
 
@@ -127,6 +125,9 @@ parser = SafeConfigParser()
 parser.read('apitoken.txt')
 owner = parser.get('apitoken', 'owner')
 bot_apitoken = parser.get('apitoken', 'token')
+fuckchannel = int(parser.get('apitoken', 'channel'))
+botId = int(bot_apitoken.split(':')[0])
+
 bot = telepot.Bot(bot_apitoken)
 bot.sendMessage(int(owner), '運轉中!')
 bot.message_loop(handle)
