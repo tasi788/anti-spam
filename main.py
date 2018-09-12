@@ -31,7 +31,7 @@ def checkName(username):
 
 
 def handle(msg):
-	# pp(msg)
+	#pp(msg)
 	content_type, chat_type, chat_id, msg_date, message_id = telepot.glance(
 		msg, long=True)
 	user_id = msg['from']['id']
@@ -96,9 +96,21 @@ def handle(msg):
 	elif content_type == 'text':
 		say = msg['text'].lower()
 		# 作者濫權部分。
-		if say[:11] == '@admin fuck' and user_id == int(owner):
-			bot.kickChatMember(
-				chat_id, say[12:])
+		if say[:5] == '@bang' and user_id == int(owner):
+			sayList = say.split(' ')
+			varList = ['cmd', 'tuser', 'tchatId']
+			for x, y in zip(sayList, varList):
+				globals()[y] = x
+			if chat_type == 'private':
+				try:
+					bot.kickChatMember(
+						tchatId, tuser)
+				except Exception as e:
+					bot.sendMessage(chat_id, str(e.description))
+			else:
+				bot.deleteMessage((chat_id, tuser))
+				bot.kickChatMember(
+					chat_id, tuser)
 
 		if 'reply_to_message' in msg.keys() and user_id == int(owner):
 			reply_msgId = msg['reply_to_message']['message_id']
