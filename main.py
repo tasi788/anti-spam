@@ -47,43 +47,43 @@ def handle(msg):
 				'group name: `{gName}` \n' \
 				'group id: `{gId}` \n' \
 				'Invited by\n' \
-				'username: {username}\n' \
+				'username: <a href="tg://user?id={user_id}">{username}</a>\n' \
 				'uid: `{user_id}` '.format(
 					gName=gName,
 					gId=gId,
-					username=username,
+					username=username.replace('<', '&lt;').replace('>', '&gt;'),
 					user_id=user_id
 				)
-			greeting = '咕嚕靈波（●´∀｀）ノ♡\n' \
-				'我沒有濫權就會自己離家出走唷'
+			greeting = '我沒有濫權就會自己離家出走唷'
 			bot.sendMessage(chat_id, greeting)
-			bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
+			bot.sendMessage(fuckchannel, tmp, parse_mode='html')
 
 		if checkName(username) == True:
 			tmp = 'Banned\n' \
 				'group id: `{gId}`\n' \
 				'group name: `{gName}`\n' \
-				'name: {username}\n' \
+				'name: <a href="tg://user?id={user_id}">{username}</a>\n' \
 				'uid: `{user_id}`\n'.format(
 					gId=gId,
 					gName=gName,
-					username=username,
+					username=username.replace('<', '&lt;').replace('>', '&gt;').replace('&', '&amp;'),
 					user_id=user_id
 				)
 			try:
 				bot.kickChatMember(
 					chat_id, user_id)
 				bot.deleteMessage((chat_id, message_id))
-				bot.sendMessage(fuckchannel, tmp, parse_mode='markdown')
+				bot.sendMessage(fuckchannel, tmp, parse_mode='html')
 				print(tmp)
 			except Exception as e:
 				# Bad Request: message can't be deleted
 				permission = 'Bad Request: not enough rights to restrict/unrestrict chat member'
 				if str(e.description) == permission:
-					tmp = '我踢不走[這個廣告帳號](tg://user?id={user_id})\n' \
-						'因為你沒給我濫權 (´･_･`)'.format(user_id=user_id)
+					tmp = '我踢不走 <a href="tg://user?id={user_id}">{username}</a> 這個廣告帳號\n' \
+						'因為你沒給我濫權 (´･_･`)\n' \
+						'所以我要傷心的離開了'.format(user_id=user_id)
 					bot.sendMessage(
-						chat_id, tmp, parse_mode='markdown', reply_markup=message_id)
+						chat_id, tmp, parse_mode='html', reply_markup=message_id)
 					bot.leaveChat(chat_id)
 					tmp = '離開惹\n' \
 						'group id: `{gId}`\n' \
@@ -96,6 +96,13 @@ def handle(msg):
 	elif content_type == 'text':
 		say = msg['text'].lower()
 		# 作者濫權部分。
+		'''if say == '/test':
+			tmp = 'name: <a href="tg://user?id={user_id}">{username}</a>\n'.format(
+				user_id = user_id,
+				username = username.replace('<', '&lt;').replace('>', '&gt;')
+			)
+			print(tmp)
+			bot.sendMessage(chat_id, tmp, parse_mode='html')'''
 		if say[:11] == '@admin fuck' and user_id == int(owner):
 			bot.kickChatMember(
 				chat_id, say[12:])
