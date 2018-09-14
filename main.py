@@ -56,7 +56,7 @@ def handle(msg):
 				)
 			greeting = '我沒有濫權就會自己離家出走唷'
 			bot.sendMessage(chat_id, greeting)
-			bot.sendMessage(fuckchannel, tmp, parse_mode='html')
+			bot.sendMessage(invitelog, tmp, parse_mode='html')
 
 		if checkName(username) == True:
 			tmp = 'Banned\n' \
@@ -138,6 +138,7 @@ parser.read('apitoken.txt')
 owner = parser.get('apitoken', 'owner')
 bot_apitoken = parser.get('apitoken', 'token')
 fuckchannel = int(parser.get('apitoken', 'channel'))
+invitelog = int(parser.get('apitoken', 'invitelog'))
 botId = int(bot_apitoken.split(':')[0])
 
 bot = telepot.Bot(bot_apitoken)
