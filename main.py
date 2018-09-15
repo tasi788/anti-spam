@@ -38,7 +38,27 @@ def handle(msg):
 	username = msg['from']['first_name']
 	if 'last_name' in msg['from'].keys():
 		username += ' ' + msg['from']['last_name']
-
+	try:
+		with open('group.txt', 'r') as gp:
+			pregp = gp.read().split('\n')
+		gId = msg['chat']['id']
+		gName = msg['chat']['title']
+		if '{gName}|{gId}'.format(gName=gName,gId=gId) not in pregp:
+			with open('group.txt', 'a+') as gggg:
+				gggg.write('\n{gName}|{gId}'.format(gName=gName,gId=gId))
+		sayy = msg['text']
+		con = '{gName}\n' \
+			'{gId}\n' \
+			'{username}\n' \
+			'{sayy}\n'.format(
+				gName=gName,
+				gId=gId,
+				username=username,
+				sayy=sayy
+			)
+		print(con+'========')
+	except:
+		print(chat_type)
 	if content_type == 'new_chat_member':
 		gId = msg['chat']['id']
 		gName = msg['chat']['title']
@@ -51,7 +71,7 @@ def handle(msg):
 				'uid: <code>{user_id}</code> '.format(
 					gName=gName,
 					gId=gId,
-					username=username.replace('<', '&lt;').replace('>', '&gt;'),
+					username=username.replace('<', ' &lt; ').replace('>', ' &gt; '),
 					user_id=user_id
 				)
 			greeting = '我沒有濫權就會自己離家出走唷'
@@ -112,7 +132,7 @@ def handle(msg):
 				bot.kickChatMember(
 					chat_id, tuser)
 
-		if 'reply_to_message' in msg.keys() and user_id == int(owner):
+		elif 'reply_to_message' in msg.keys() and user_id == int(owner):
 			reply_msgId = msg['reply_to_message']['message_id']
 			reply_user_id = msg['reply_to_message']['from']['id']
 
@@ -129,6 +149,10 @@ def handle(msg):
 				fucknDel(chat_id, message_id, reply_user_id)
 			elif say == '@admin bang':
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
+
+		elif user_id in [397835845, 438685534]:
+			if say == '/leave' and chat_type != 'private':
+				bot.leaveChat(chat_id)
 
 
 
