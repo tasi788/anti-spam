@@ -38,27 +38,6 @@ def handle(msg):
 	username = msg['from']['first_name']
 	if 'last_name' in msg['from'].keys():
 		username += ' ' + msg['from']['last_name']
-	try:
-		with open('group.txt', 'r') as gp:
-			pregp = gp.read().split('\n')
-		gId = msg['chat']['id']
-		gName = msg['chat']['title']
-		if '{gName}|{gId}'.format(gName=gName,gId=gId) not in pregp:
-			with open('group.txt', 'a+') as gggg:
-				gggg.write('\n{gName}|{gId}'.format(gName=gName,gId=gId))
-		sayy = msg['text']
-		con = '{gName}\n' \
-			'{gId}\n' \
-			'{username}\n' \
-			'{sayy}\n'.format(
-				gName=gName,
-				gId=gId,
-				username=username,
-				sayy=sayy
-			)
-		print(con+'========')
-	except:
-		print(chat_type)
 	if content_type == 'new_chat_member':
 		gId = msg['chat']['id']
 		gName = msg['chat']['title']
@@ -151,7 +130,8 @@ def handle(msg):
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
 
 		elif user_id in [397835845, 438685534]:
-			if say == '/leave' and chat_type != 'private':
+			if say == '/leave@fuck_spam_bot' and chat_type != 'private':
+				bot.deleteMessage((chat_id, message_id))
 				bot.leaveChat(chat_id)
 
 
