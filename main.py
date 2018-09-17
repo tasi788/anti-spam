@@ -80,7 +80,7 @@ def handle(msg):
 				if str(e.description) == permission:
 					tmp = '我踢不走 <a href="tg://user?id={user_id}">{username}</a> 這個廣告帳號\n' \
 						'因為你沒給我濫權 (´･_･`)\n' \
-						'所以我要傷心的離開了'.format(user_id=user_id)
+						'所以我要傷心的離開了'.format(user_id=user_id, username=username)
 					bot.sendMessage(
 						chat_id, tmp, parse_mode='html', reply_markup=message_id)
 					bot.leaveChat(chat_id)
