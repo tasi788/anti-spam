@@ -29,7 +29,6 @@ def checkName(username):
 		if x in username:
 			return True
 
-
 def handle(msg):
 	#pp(msg)
 	content_type, chat_type, chat_id, msg_date, message_id = telepot.glance(
