@@ -1,4 +1,4 @@
-__author__ = '@DingChen-Tsai'
+__author__ = '@hexlightning'
 
 import time
 import logging
@@ -129,10 +129,13 @@ def handle(msg):
 			elif say == '@admin bang':
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
 
+		'''
 		elif user_id in [397835845, 438685534]:
 			if say == '/leave@fuck_spam_bot' and chat_type != 'private':
 				bot.deleteMessage((chat_id, message_id))
 				bot.leaveChat(chat_id)
+				bot.sendMessage(int(owner), '滾出了 '+msg['chat']['title'])
+		'''
 
 
 
