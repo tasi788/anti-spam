@@ -127,6 +127,8 @@ def handle(msg):
 				fucknDel(chat_id, message_id, reply_user_id)
 			elif say == '@admin bang':
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
+			elif say == 'delmsg':
+				fucknDel(chat_id, message_id, reply_user_id)
 
 		'''
 		elif user_id in [397835845, 438685534]:
