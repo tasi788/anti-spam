@@ -114,7 +114,7 @@ def handle(msg):
 			reply_msgId = msg['reply_to_message']['message_id']
 			reply_user_id = msg['reply_to_message']['from']['id']
 
-			def fucknDel(chat_id, message_id, reply_user_id, bang=False):
+			def fucknDel(chat_id, message_id, reply_user_id=None, bang=False):
 				try:
 					for x in [reply_msgId, message_id]:
 						bot.deleteMessage((chat_id, x))
@@ -127,8 +127,8 @@ def handle(msg):
 				fucknDel(chat_id, message_id, reply_user_id)
 			elif say == '@admin bang':
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
-			elif say == 'delmsg':
-				fucknDel(chat_id, message_id, reply_user_id)
+			elif say == '@delmsg':
+				fucknDel(chat_id, message_id)
 
 		'''
 		elif user_id in [397835845, 438685534]:
