@@ -104,7 +104,7 @@ def handle(msg):
 					username=username.replace('<', '&lt;').replace('>', '&gt;').replace('&', '&amp;'),
 					user_id=user_id
 				)
-			bot.sendMessage(checkNamelog, tmp)
+			bot.sendMessage(checkNamelog, tmp, parse_mode='html')
 
 	elif content_type == 'text':
 		say = msg['text'].lower()
