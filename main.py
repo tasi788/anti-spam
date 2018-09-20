@@ -5,7 +5,7 @@ import logging
 import telepot
 from pprint import pprint as pp
 from configparser import SafeConfigParser
-
+from itertools import zip_longest
 '''
 log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
 作者在上面自己看。
@@ -21,12 +21,14 @@ log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
 # 定義telegram各項參數
 
 
-def checkName(username):
+def checkName(username, user_id=123):
 	with open('fuckdict.txt', encoding='utf8') as f:
 		fuckname = f.read().split('\n')
 		fuckname.remove('')
-	for x in fuckname:
-		if x in username:
+	with open('fuckuid.txt', mode='r', encoding='utf8') as f:
+		fuckuid = f.read().split(',')
+	for x, y in zip_longest(fuckname, fuckuid):
+		if x in username or y == str(user_id):
 			return True
 
 def handle(msg):
@@ -40,7 +42,8 @@ def handle(msg):
 	if content_type == 'new_chat_member':
 		gId = msg['chat']['id']
 		gName = msg['chat']['title']
-		if msg['new_chat_member']['id'] == botId:
+		new_user_id = msg['new_chat_member']['id']
+		if new_user_id == botId:
 			tmp = 'Invited\n' \
 				'group name: <code>{gName}</code> \n' \
 				'group id: <code>{gId}</code> \n' \
@@ -56,7 +59,7 @@ def handle(msg):
 			bot.sendMessage(chat_id, greeting)
 			bot.sendMessage(invitelog, tmp, parse_mode='html')
 
-		if checkName(username) == True:
+		if checkName(username, new_user_id) == True:
 			tmp = 'Banned\n' \
 				'group id: <code>{gId}</code>\n' \
 				'group name: <code>{gName}</code>\n' \
@@ -90,6 +93,18 @@ def handle(msg):
 					bot.sendMessage(fuckchannel, tmp,
 									parse_mode='markdown')
 				logging.warning(str(e.description))
+		else:
+			tmp = 'New\n' \
+				'group id: <code>{gId}</code>\n' \
+				'group name: <code>{gName}</code>\n' \
+				'name: <a href="tg://user?id={user_id}">{username}</a>\n' \
+				'uid: <code>{user_id}</code>\n'.format(
+					gId=gId,
+					gName=gName,
+					username=username.replace('<', '&lt;').replace('>', '&gt;').replace('&', '&amp;'),
+					user_id=user_id
+				)
+			bot.sendMessage(checkNamelog, tmp)
 
 	elif content_type == 'text':
 		say = msg['text'].lower()
@@ -109,7 +124,12 @@ def handle(msg):
 				bot.deleteMessage((chat_id, message_id))
 				bot.kickChatMember(
 					chat_id, tuser)
-
+		elif chat_type == 'private':
+			if say[:4] == '/chk':
+				if checkName(say[5:]):
+					bot.sendMessage(chat_id, 'True')
+				else:
+					bot.sendMessage(chat_id, 'False')
 		elif 'reply_to_message' in msg.keys() and user_id == int(owner):
 			reply_msgId = msg['reply_to_message']['message_id']
 			reply_user_id = msg['reply_to_message']['from']['id']
@@ -148,6 +168,7 @@ bot_apitoken = parser.get('apitoken', 'token')
 fuckchannel = int(parser.get('apitoken', 'channel'))
 invitelog = int(parser.get('apitoken', 'invitelog'))
 botId = int(bot_apitoken.split(':')[0])
+checkNamelog = int(parser.get('apitoken', 'checkNamelog'))
 
 bot = telepot.Bot(bot_apitoken)
 bot.sendMessage(int(owner), '運轉中!')
