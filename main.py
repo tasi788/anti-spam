@@ -150,7 +150,7 @@ def handle(msg):
             userpic, userurl = True, ''
             if bot.getUserProfilePhotos(user_id)['total_count'] == 0:
                 userpic = False
-            if msg['from']['username']:
+            if 'username' in msg['from'].keys():
                 userurl = '@' + msg['from']['username']
             tmp = 'New\n' \
                 'group id: <code>{gId}</code>\n' \
