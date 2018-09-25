@@ -35,7 +35,7 @@ def checkName(username, user_id=123):
 
 
 def on_callback_query(msg):
-	pp(msg)
+	#pp(msg)
 	query_id, from_id, query_data = telepot.glance(
 		msg, flavor='callback_query')
 	content_type, chat_type, chat_id, date, message_id = telepot.glance(
