@@ -197,7 +197,8 @@ def handle(msg):
 				'name: <a href="tg://user?id={user_id}">{username}</a>\n' \
 				'username: {userurl}\n' \
 				'uid: <code>{user_id}</code>\n' \
-				'profile pic: <code>{userpic}</code>\n'.format(
+				'profile pic: <code>{userpic}</code>\n' \
+				'======================='.format(
 					gId=gId,
 					gName=gName,
 					username=username.replace('<', '&lt;').replace(
