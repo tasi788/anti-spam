@@ -219,28 +219,26 @@ def handle(msg):
 	elif content_type == 'text':
 		say = msg['text'].lower()
 		# 作者濫權部分。
-		if say[:5] == '@bang' and user_id == int(owner):
+		if say[:5] == '@bang' and str(user_id) in owner:
 			sayList = say.split(' ')
 			varList = ['cmd', 'tuser', 'tchatId']
-			for x, y in zip(sayList, varList):
-				globals()[y] = x
-			if chat_type == 'private':
+			def fucknDel(chat_id, message_id, reply_user_id=None, bang=False):
 				try:
-					bot.kickChatMember(
-						tchatId, tuser)
+					bot.deleteMessage((chat_id, message_id))
+					if bang == True:
+						bot.kickChatMember(
+							chat_id, sayList[1])
 				except Exception as e:
-					bot.sendMessage(chat_id, str(e.description))
-			else:
-				bot.deleteMessage((chat_id, message_id))
-				bot.kickChatMember(
-					chat_id, tuser)
+					logging.warning(str(e))
+			fucknDel(chat_id, message_id, bang=True)
+
 		elif chat_type == 'private':
 			if say[:4] == '/chk':
 				if checkName(say[5:]):
 					bot.sendMessage(chat_id, 'True')
 				else:
 					bot.sendMessage(chat_id, 'False')
-		elif 'reply_to_message' in msg.keys() and user_id == int(owner):
+		elif 'reply_to_message' in msg.keys() and str(user_id) in owner:
 			reply_msgId = msg['reply_to_message']['message_id']
 			reply_user_id = msg['reply_to_message']['from']['id']
 
@@ -258,7 +256,7 @@ def handle(msg):
 			elif say == '@admin bang':
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
 			elif say == '@delmsg':
-				fucknDel(chat_id, message_id)
+				fucknDel(chat_id, message_id, reply_user_id)
 
 		'''
 		elif user_id in [397835845, 438685534]:
@@ -273,7 +271,7 @@ def handle(msg):
 # 登入資訊
 parser = SafeConfigParser()
 parser.read('apitoken.txt')
-owner = parser.get('apitoken', 'owner')
+owner = parser.get('apitoken', 'owner').split(',')
 bot_apitoken = parser.get('apitoken', 'token')
 fuckchannel = int(parser.get('apitoken', 'channel'))
 invitelog = int(parser.get('apitoken', 'invitelog'))
@@ -286,7 +284,7 @@ bot = telepot.Bot(bot_apitoken)
 
 
 def looooo():
-	bot.sendMessage(int(owner), '運轉中!')
+	bot.sendMessage(int(owner[0]), '運轉中!')
 	MessageLoop(bot,  {'chat': handle,
 					   'callback_query': on_callback_query}).run_as_thread()
 	while 1:
