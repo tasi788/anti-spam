@@ -238,7 +238,7 @@ def handle(msg):
 					bot.sendMessage(chat_id, 'True')
 				else:
 					bot.sendMessage(chat_id, 'False')
-		if 'reply_to_message' in msg.keys() and str(user_id) in owner:
+		elif 'reply_to_message' in msg.keys() and str(user_id) in owner:
 			reply_msgId = msg['reply_to_message']['message_id']
 			reply_user_id = msg['reply_to_message']['from']['id']
 
@@ -253,7 +253,7 @@ def handle(msg):
 					logging.warning(str(e.description))
 			if say == '@admin':
 				fucknDel(chat_id, message_id, reply_user_id)
-			elif say == '@bang':
+			elif say == '@bangg':
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
 			elif say == '@delmsg':
 				fucknDel(chat_id, message_id, reply_user_id)
