@@ -26,12 +26,13 @@ log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
 def checkName(username, user_id=123):
 	with open('fuckdict.txt', encoding='utf8') as f:
 		fuckname = f.read().split('\n')
-		fuckname.remove('')
 	with open('fuckuid.txt', mode='r', encoding='utf8') as f:
 		fuckuid = f.read().split(',')
 	for x, y in zip_longest(fuckname, fuckuid):
-		if x in username or y == str(user_id):
-			return True
+		if x in username:
+			return True, 'username'
+		elif y == str(user_id):
+			return True, 'uid'
 
 
 def on_callback_query(msg):
@@ -149,7 +150,7 @@ def handle(msg):
 			bot.sendMessage(chat_id, greeting)
 			bot.sendMessage(invitelog, tmp, parse_mode='html')
 
-		if checkName(username, new_user_id) == True:
+		if checkName(username, new_user_id):
 			tmp = 'Banned\n' \
 				'group id: <code>{gId}</code>\n' \
 				'group name: <code>{gName}</code>\n' \
@@ -234,8 +235,9 @@ def handle(msg):
 
 		elif chat_type == 'private':
 			if say[:4] == '/chk':
-				if checkName(say[5:]):
-					bot.sendMessage(chat_id, 'True')
+				tmp = checkName(say[5:])
+				if tmp:
+					bot.sendMessage(chat_id, '{} {}'.format(tmp[0], tmp[1]))
 				else:
 					bot.sendMessage(chat_id, 'False')
 		elif 'reply_to_message' in msg.keys() and str(user_id) in owner:
