@@ -26,6 +26,10 @@ log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
 def checkName(username, user_id=123):
 	with open('fuckdict.txt', encoding='utf8') as f:
 		fuckname = f.read().split('\n')
+		try:
+			fuckname = fuckname.remove('')
+		except:
+			pass
 	with open('fuckuid.txt', mode='r', encoding='utf8') as f:
 		fuckuid = f.read().split(',')
 	for x, y in zip_longest(fuckname, fuckuid):
