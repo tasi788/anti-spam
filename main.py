@@ -27,7 +27,7 @@ def checkName(username, user_id=123):
 	with open('fuckdict.txt', encoding='utf8') as f:
 		fuckname = f.read().split('\n')
 		try:
-			fuckname = fuckname.remove('')
+			fuckname.remove('')
 		except:
 			pass
 	with open('fuckuid.txt', mode='r', encoding='utf8') as f:
