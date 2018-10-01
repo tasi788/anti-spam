@@ -30,7 +30,7 @@ def checkName(username, user_id=123):
 		fuckuid = f.read().split(',')
 	for x, y in zip_longest(fuckname, fuckuid):
 		if x in username:
-			return True, 'username'
+			return True, x
 		elif y == str(user_id):
 			return True, 'uid'
 
