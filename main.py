@@ -256,6 +256,7 @@ def handle(msg):
 					if bang == True:
 						bot.restrictChatMember(
 							chat_id, reply_user_id)
+						bot.sendMessage(fuckchannel, f'{username} bang 飛了 {reply_user_id}')
 				except Exception as e:
 					print('fuck error')
 					logging.warning(str(e.description))
