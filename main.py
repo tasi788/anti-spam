@@ -35,7 +35,7 @@ def checkName(username, user_id=123):
 	for x, y in zip_longest(fuckname, fuckuid):
 		if x in username:
 			return True, x
-		elif y == str(user_id):
+		elif str(y) == str(user_id):
 			return True, 'uid'
 
 
@@ -253,13 +253,13 @@ def handle(msg):
 					for x in [reply_msgId, message_id]:
 						bot.deleteMessage((chat_id, x))
 					if bang == True:
-						bot.kickChatMember(
+						bot.restrictChatMember(
 							chat_id, reply_user_id)
+						print('bang true')
 				except Exception as e:
+					print('fuck error')
 					logging.warning(str(e.description))
-			if say == '@admin':
-				fucknDel(chat_id, message_id, reply_user_id)
-			elif say == '@bangg':
+			if say == '@bang':
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
 			elif say == '@delmsg':
 				fucknDel(chat_id, message_id, reply_user_id)
