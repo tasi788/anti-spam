@@ -254,9 +254,9 @@ def handle(msg):
 					for x in [message_id, reply_msgId]:
 						bot.deleteMessage((chat_id, x))
 					if bang == True:
-						bot.restrictChatMember(
+						bot.kickChatMember(
 							chat_id, reply_user_id)
-						bot.sendMessage(fuckchannel, '{username} bang 飛了 {reply}'.format(username=username,reply=reply_user_id))
+						bot.sendMessage(checkNamelog, '`{username}` bang 飛了 {reply}'.format(username=username,reply=reply_user_id))
 				except Exception as e:
 					print('fuck error')
 					logging.warning(str(e.description))
