@@ -224,7 +224,7 @@ def handle(msg):
 	elif content_type == 'text':
 		say = msg['text'].lower()
 		# 作者濫權部分。
-		if say[:5] == '@bang' and str(user_id) in owner:
+		if say[:5] == '@bang' and str(user_id) in owner and chat_type == 'private':
 			sayList = say.split(' ')
 			varList = ['cmd', 'tuser', 'tchatId']
 			def fucknDel(chat_id, message_id, reply_user_id=None, bang=False):
@@ -234,6 +234,7 @@ def handle(msg):
 						bot.kickChatMember(
 							chat_id, sayList[1])
 				except Exception as e:
+					print('varlist fuck error')
 					logging.warning(str(e))
 			fucknDel(chat_id, message_id, bang=True)
 
@@ -250,12 +251,11 @@ def handle(msg):
 
 			def fucknDel(chat_id, message_id, reply_user_id=None, bang=False):
 				try:
-					for x in [reply_msgId, message_id]:
+					for x in [message_id, reply_msgId]:
 						bot.deleteMessage((chat_id, x))
 					if bang == True:
 						bot.restrictChatMember(
 							chat_id, reply_user_id)
-						print('bang true')
 				except Exception as e:
 					print('fuck error')
 					logging.warning(str(e.description))
