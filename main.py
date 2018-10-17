@@ -256,7 +256,7 @@ def handle(msg):
 					if bang == True:
 						bot.kickChatMember(
 							chat_id, reply_user_id)
-						bot.sendMessage(checkNamelog, '`{username}` bang 飛了 {reply}'.format(username=username,reply=reply_user_id))
+						bot.sendMessage(checkNamelog, '#banglog \n{username} bang 飛了 `{reply}`'.format(username=username,reply=reply_user_id), parse_mode='markdown')
 				except Exception as e:
 					print('fuck error')
 					logging.warning(str(e.description))
