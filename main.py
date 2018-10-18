@@ -47,12 +47,14 @@ def on_callback_query(msg):
 	content_type, chat_type, chat_id, date, message_id = telepot.glance(
 		msg['message'], long=True)
 	status, gId, targetuser = query_data.split(' ')
+	if 'entities' in msg['message'].keys():
+		oldmsg = telepot.text.apply_entities_as_html(msg['message']['text'], msg['message']['entities'])
 	if status == 'ban':
 		print('ban')
 		tmp = '{text}' \
 			'\n' \
 			'Ban by: ' \
-			'{name}'.format(text=msg['message']['text'], name=msg['from']['first_name'])
+			'{name}'.format(text=oldmsg, name=msg['from']['first_name'])
 		try:
 			bot.kickChatMember(gId, targetuser)
 			bot.answerCallbackQuery(query_id, text='Banned.')
@@ -69,8 +71,6 @@ def on_callback_query(msg):
 			#bot.sendMessage(checkNamelog, )
 	elif status == 'pass':
 		print('pass')
-		#print(msg['message']['entities'])
-		oldmsg = telepot.text.apply_entities_as_html(msg['message']['text'], msg['message']['entities'])
 		tmp = '{text}' \
 			'\n' \
 			'Passed by: ' \
@@ -94,7 +94,7 @@ def on_callback_query(msg):
 		tmp = '{text}' \
 			'\n' \
 			'Unban by: ' \
-			'{name}'.format(text=msg['message']['text'], name=msg['from']['first_name'])
+			'{name}'.format(text=oldmsg, name=msg['from']['first_name'])
 		try:
 			bot.unbanChatMember(gId, targetuser)
 			bot.answerCallbackQuery(query_id, text='Done.')
