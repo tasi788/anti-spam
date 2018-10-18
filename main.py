@@ -3,6 +3,7 @@ __author__ = '@hexlightning'
 import time
 import logging
 import telepot
+import telepot.text
 from telepot.loop import MessageLoop
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 from pprint import pprint as pp
@@ -68,10 +69,12 @@ def on_callback_query(msg):
 			#bot.sendMessage(checkNamelog, )
 	elif status == 'pass':
 		print('pass')
+		#print(msg['message']['entities'])
+		oldmsg = telepot.text.apply_entities_as_html(msg['message']['text'], msg['message']['entities'])
 		tmp = '{text}' \
 			'\n' \
 			'Passed by: ' \
-			'{name}'.format(text=msg['message']['text'], name=msg['from']['first_name'])
+			'{name}'.format(text=oldmsg, name=msg['from']['first_name'])
 		try:
 			bot.answerCallbackQuery(query_id, text='好ㄛ')
 			reply_markup = InlineKeyboardMarkup(inline_keyboard=[
