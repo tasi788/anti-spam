@@ -1,6 +1,7 @@
 __author__ = '@hexlightning'
 
 import time
+import random
 import logging
 import telepot
 import telepot.text
@@ -267,6 +268,10 @@ def handle(msg):
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
 			elif say == '@delmsg':
 				fucknDel(chat_id, message_id, reply_user_id)
+		elif '/tigerweardress' == say and chat_id == -1001308198087:			
+			sayList = ['虎虎女裝', '什麼時候要女裝啊 @allen0099', '虎虎！！！！！！', '該女裝囉虎虎', '乖 穿上。', '妳再不穿上就要被濫了', '請女裝以解鎖說話權限。']
+			tmp = random.choice(sayList)
+			bot.sendMessage(-1001308198087, tmp)
 
 		'''
 		elif user_id in [397835845, 438685534]:
