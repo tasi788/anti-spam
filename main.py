@@ -2,6 +2,7 @@ __author__ = '@hexlightning'
 
 import time
 import random
+import pymongo
 import logging
 import telepot
 import telepot.text
@@ -24,7 +25,9 @@ log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
 
 # 定義telegram各項參數
 
-
+client = pymongo.MongoClient('localhost', 27017)
+db = client.db
+record = db.join
 def checkName(username, user_id=123):
 	with open('fuckdict.txt', encoding='utf8') as f:
 		fuckname = f.read().split('\n')
@@ -200,6 +203,7 @@ def handle(msg):
 				userpic = False
 			if 'username' in msg['from'].keys():
 				userurl = '@' + msg['from']['username']
+			record.insert_one(msg).inserted_id
 			tmp = 'New\n' \
 				'group id: <code>{gId}</code>\n' \
 				'group name: <code>{gName}</code>\n' \
