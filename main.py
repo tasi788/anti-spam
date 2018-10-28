@@ -37,11 +37,11 @@ def checkName(username, user_id=123):
 			pass
 	with open('fuckuid.txt', mode='r', encoding='utf8') as f:
 		fuckuid = f.read().split(',')
-	for x, y in zip_longest(fuckname, fuckuid):
-		if x in username:
-			return True, x
-		elif str(y) == str(user_id):
-			return True, 'uid'
+		for x, y in zip_longest(fuckname, fuckuid):
+			if x in username:
+				return True, x
+			if y == str(user_id):
+				return True, 'uid'
 
 
 def on_callback_query(msg):
@@ -228,7 +228,45 @@ def handle(msg):
 			]])
 			bot.sendMessage(checkNamelog, tmp, parse_mode='html',
 							reply_markup=reply_markup)
-
+	elif 'forward_from_chat' in msg.keys():
+		gId = msg['chat']['id']
+		gName = msg['chat']['title']
+		fw = msg['forward_from_chat']
+		if checkName(fw['title'], fw['id']):
+			tmp = 'Banned\n' \
+				'group id: <code>{gId}</code>\n' \
+				'group name: <code>{gName}</code>\n' \
+				'name: <a href="tg://user?id={user_id}">{username}</a>\n' \
+				'uid: <code>{user_id}</code>\n'.format(
+					gId=gId,
+					gName=gName,
+					username=username.replace('<', '&lt;').replace(
+						'>', '&gt;').replace('&', '&amp;'),
+					user_id=user_id
+				)
+			try:
+				bot.kickChatMember(
+					chat_id, user_id)
+				bot.deleteMessage((chat_id, message_id))
+				bot.sendMessage(fuckchannel, tmp, parse_mode='html')
+			except Exception as e:
+				# Bad Request: message can't be deleted
+				permission = 'Bad Request: not enough rights to restrict/unrestrict chat member'
+				if str(e.description) == permission:
+					tmp = '我踢不走 <a href="tg://user?id={user_id}">{username}</a> 這個廣告帳號\n' \
+						'因為你沒給我濫權 (´･_･`)\n' \
+						'所以我要傷心的離開了'.format(
+							user_id=user_id, username=username)
+					bot.sendMessage(
+						chat_id, tmp, parse_mode='html', reply_markup=message_id)
+					bot.leaveChat(chat_id)
+					tmp = '離開惹\n' \
+						'group id: `{gId}`\n' \
+						'group name: {gName}\n'.format(
+							gId=gId, gName=gName)
+					bot.sendMessage(fuckchannel, tmp,
+									parse_mode='markdown')
+				logging.warning(str(e.description))
 	elif content_type == 'text':
 		say = msg['text'].lower()
 		# 作者濫權部分。
@@ -272,11 +310,7 @@ def handle(msg):
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
 			elif say == '@delmsg':
 				fucknDel(chat_id, message_id, reply_user_id)
-		#elif '/tigerweardress' == say and chat_id == -1001308198087:			
-		#	sayList = ['虎虎女裝', '什麼時候要女裝啊 @allen0099', '虎虎！！！！！！', '該女裝囉虎虎', '乖 穿上。', '妳再不穿上就要被濫了', '請女裝以解鎖說話權限。']
-		#	tmp = random.choice(sayList)
-		#	bot.sendMessage(-1001308198087, tmp)
-
+		
 		'''
 		elif user_id in [397835845, 438685534]:
 			if say == '/leave@fuck_spam_bot' and chat_type != 'private':
