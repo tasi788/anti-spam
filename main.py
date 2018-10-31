@@ -1,9 +1,12 @@
 __author__ = '@hexlightning'
 
+import json
 import time
 import random
+import asyncio
 import pymongo
 import logging
+import requests
 import telepot
 import telepot.text
 from telepot.loop import MessageLoop
@@ -28,6 +31,29 @@ log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
 client = pymongo.MongoClient('172.17.0.6', 27017)
 db = client.db
 record = db.join
+
+async def Loadfuck():
+	global fuckname, fuckuid
+	url = 'https://raw.githubusercontent.com/tasi788/anti-spam/master/fuckdict.txt'
+	try:
+		fuckname = requests.get(url)
+		fuckname.text.split('\n')
+		fuckname.remove('')
+	except:
+		pass
+	url = 'https://raw.githubusercontent.com/tasi788/anti-spam/master/fuckuid.txt'
+	try:
+		fuckuid = requests.get(url)
+		fuckuid.text.split('\n')
+		fuckuid.remove('')
+	except:
+		pass
+	await asyncio.sleep(600)
+
+'''loop = asyncio.get_event_loop()
+loop.create_task(Loadfuck)
+loop.run_forever()'''
+
 def checkName(username, user_id=123):
 	with open('fuckdict.txt', encoding='utf8') as f:
 		fuckname = f.read().split('\n')
@@ -37,11 +63,11 @@ def checkName(username, user_id=123):
 			pass
 	with open('fuckuid.txt', mode='r', encoding='utf8') as f:
 		fuckuid = f.read().split(',')
-		for x, y in zip_longest(fuckname, fuckuid):
-			if x in username:
-				return True, x
-			if y == str(user_id):
-				return True, 'uid'
+	for x, y in zip_longest(fuckname, fuckuid):
+		if x in username:
+			return True, x
+		if y == str(user_id):
+			return True, 'uid'
 
 
 def on_callback_query(msg):
@@ -283,7 +309,9 @@ def handle(msg):
 					print('varlist fuck error')
 					logging.warning(str(e))
 			fucknDel(chat_id, message_id, bang=True)
-
+		elif say[:5] == '/info':
+			tmp = '<code>'+json.dumps(msg, ensure_ascii=False, indent=4)+'</code>'
+			bot.sendMessage(-1001409787631, tmp, parse_mode='html')
 		elif chat_type == 'private':
 			if say[:4] == '/chk':
 				tmp = checkName(say[5:])
@@ -307,6 +335,7 @@ def handle(msg):
 					print('fuck error')
 					logging.warning(str(e.description))
 			if say == '@bang':
+				print('bangg')
 				fucknDel(chat_id, message_id, reply_user_id, bang=True)
 			elif say == '@delmsg':
 				fucknDel(chat_id, message_id, reply_user_id)
