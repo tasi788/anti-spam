@@ -311,7 +311,7 @@ def handle(msg):
 			fucknDel(chat_id, message_id, bang=True)
 		elif say[:5] == '/info':
 			tmp = '<code>'+json.dumps(msg, ensure_ascii=False, indent=4)+'</code>'
-			bot.sendMessage(-1001409787631, tmp, parse_mode='html')
+			bot.sendMessage(msg['from']['id'], tmp, parse_mode='html')
 		elif chat_type == 'private':
 			if say[:4] == '/chk':
 				tmp = checkName(say[5:])
