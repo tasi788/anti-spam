@@ -312,6 +312,7 @@ def handle(msg):
 		elif say[:5] == '/info':
 			tmp = '<code>'+json.dumps(msg, ensure_ascii=False, indent=4)+'</code>'
 			bot.sendMessage(msg['from']['id'], tmp, parse_mode='html')
+			bot.deleteMessage((chat_id, message_id))
 		elif chat_type == 'private':
 			if say[:4] == '/chk':
 				tmp = checkName(say[5:])
