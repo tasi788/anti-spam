@@ -349,7 +349,9 @@ def handle(msg):
 				bot.sendMessage(int(owner), '滾出了 '+msg['chat']['title'])
 		'''
 
-
+	elif content_type == 'sticker':
+		if chat_id == -1001061319491:
+			bot.deleteMessage((chat_id, message_id))
 
 # 登入資訊
 parser = SafeConfigParser()
