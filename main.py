@@ -141,7 +141,9 @@ def on_callback_query(msg):
 		except Exception as e:
 			print(e)
 			#bot.answerCallbackQuery(query_id, text='踢不走。')
-	elif status == 'boom' and from_id == 525239263:
+	elif status == 'boom':
+		if from_id != 525239263:
+			bot.answerCallbackQuery(query_id, text='你不是路西法:3')
 		tmp = killall.fuck(targetuser, act=True)
 		for x in tmp:
 			try:
