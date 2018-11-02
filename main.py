@@ -144,6 +144,7 @@ def on_callback_query(msg):
 	elif status == 'boom':
 		if from_id != 525239263:
 			bot.answerCallbackQuery(query_id, text='你不是路西法:3')
+			return
 		tmp = killall.fuck(targetuser, act=True)
 		for x in tmp:
 			try:
