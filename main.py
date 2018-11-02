@@ -14,6 +14,8 @@ from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 from pprint import pprint as pp
 from configparser import SafeConfigParser
 from itertools import zip_longest
+
+import killall
 '''
 log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
 作者在上面自己看。
@@ -118,7 +120,6 @@ def on_callback_query(msg):
 			print(e)
 			bot.answerCallbackQuery(query_id, text='??????')
 			#bot.sendMessage(checkNamelog, )
-
 	elif status == 'unban':
 		print('unban')
 		tmp = '{text}' \
@@ -140,6 +141,16 @@ def on_callback_query(msg):
 		except Exception as e:
 			print(e)
 			#bot.answerCallbackQuery(query_id, text='踢不走。')
+	elif status == 'boom' and from_id == 525239263:
+		tmp = killall.fuck(targetuser, act=True)
+		for x in tmp:
+			try:
+				print(x)
+				bot.sendMessage(chat_id, f'{x[2]}')
+				bot.kickChatMember(x[0], x[1])
+				bot.deleteMessage((x[0], x[3]))
+			except Exception as e:
+				print(e)
 	else:
 		try:
 			tmp = msg['message']['text']
@@ -313,6 +324,16 @@ def handle(msg):
 			tmp = '<code>'+json.dumps(msg, ensure_ascii=False, indent=4)+'</code>'
 			bot.sendMessage(msg['from']['id'], tmp, parse_mode='html')
 			bot.deleteMessage((chat_id, message_id))
+
+		elif say[:5] == '/boom':
+			target = say[6:]
+			txt, keyboard = killall.fuck(target)
+			inline = InlineKeyboardMarkup(inline_keyboard=[[keyboard]])
+			if txt:
+				bot.sendMessage(chat_id, txt, reply_markup=inline)
+			else:
+				bot.sendMessage(chat_id, '什麼都沒有。')
+
 		elif chat_type == 'private':
 			if say[:4] == '/chk':
 				tmp = checkName(say[5:])
