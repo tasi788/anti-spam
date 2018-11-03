@@ -142,7 +142,7 @@ def on_callback_query(msg):
 			print(e)
 			#bot.answerCallbackQuery(query_id, text='踢不走。')
 	elif status == 'boom':
-		if from_id != 525239263:
+		if from_id not in [525239263, 184805205]:
 			bot.answerCallbackQuery(query_id, text='你不是路西法:3')
 			return
 		tmp = killall.fuck(targetuser, act=True)
