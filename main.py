@@ -329,7 +329,10 @@ def handle(msg):
 			bot.deleteMessage((chat_id, message_id))
 
 		elif say[:5] == '/boom':
-			target = say[6:]
+			if 'reply_to_message' in msg and 'forward_from' in msg['reply_to_message']:
+				target = msg['reply_to_message']['forward_from']['id']
+			else:
+				target = say[6:]
 			txt, keyboard = killall.fuck(target)
 			inline = InlineKeyboardMarkup(inline_keyboard=[[keyboard]])
 			if txt:
