@@ -3,7 +3,7 @@ from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 import pymongo
 import sys
 
-client = pymongo.MongoClient('172.17.0.6', 27017)
+client = pymongo.MongoClient("172.17.0.3", 27017)
 db = client.db
 join = db.join
 

@@ -30,7 +30,7 @@ log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
 
 # 定義telegram各項參數
 
-client = pymongo.MongoClient('172.17.0.6', 27017)
+client = pymongo.MongoClient("172.17.0.3", 27017)
 db = client.db
 record = db.join
 
