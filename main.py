@@ -336,7 +336,7 @@ def handle(msg):
 			txt, keyboard = killall.fuck(target)
 			inline = InlineKeyboardMarkup(inline_keyboard=[[keyboard]])
 			if txt:
-				bot.sendMessage(chat_id, txt, reply_markup=inline)
+				bot.sendMessage(chat_id, f'<a href="tg://user?id={target}">boom 目標</a>\n'+txt, reply_markup=inline, parse_mode='HTML')
 			else:
 				bot.sendMessage(chat_id, '什麼都沒有。')
 
