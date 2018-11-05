@@ -324,8 +324,8 @@ def handle(msg):
 					logging.warning(str(e))
 			fucknDel(chat_id, message_id, bang=True)
 		elif say[:5] == '/info':
-			tmp = '<code>'+json.dumps(msg, ensure_ascii=False, indent=4)+'</code>'
-			bot.sendMessage(msg['from']['id'], tmp, parse_mode='html')
+			tmp = json.dumps(msg, ensure_ascii=False, indent=4)
+			bot.sendMessage(msg['from']['id'], tmp)#, parse_mode='html')
 			bot.deleteMessage((chat_id, message_id))
 
 		elif say[:5] == '/boom':
