@@ -315,7 +315,7 @@ def handle(msg):
 		re_list = ['^.*(a.?i.?s.*c.?[o0].?m).*']
 		gId = msg['chat']['id']
 		gName = msg['chat']['title']
-		fw = msg['forward_from_chat']
+		#fw = msg['forward_from_chat']
 		if gId != -1001409787631:
 			for x in re_list:
 				re_result = re.findall(x, say)
