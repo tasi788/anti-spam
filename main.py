@@ -310,46 +310,51 @@ def handle(msg):
 				logging.warning(str(e.description))
 	elif content_type == 'text':
 		say = msg['text'].lower()
+		#if -1001409787631
 		#小精靈們的 (´提ω供`)
 		re_list = ['^.*(a.?i.?s.*c.?[o0].?m).*']
-		for x in re_list:
-			re_result = re.findall(x, say)
-			if re_result:
-				tmp = 'Banned\n' \
-				'group id: <code>{gId}</code>\n' \
-				'group name: <code>{gName}</code>\n' \
-				'name: <a href="tg://user?id={user_id}">{username}</a>\n' \
-				'uid: <code>{user_id}</code>\n'.format(
-					gId=gId,
-					gName=gName,
-					username=username.replace('<', '&lt;').replace(
-						'>', '&gt;').replace('&', '&amp;'),
-					user_id=user_id
-				)
-				try:
-					bot.kickChatMember(
-						chat_id, user_id)
-					bot.deleteMessage((chat_id, message_id))
-					bot.sendMessage(fuckchannel, tmp, parse_mode='html')
-					print(tmp)
-				except Exception as e:
-					# Bad Request: message can't be deleted
-					permission = 'Bad Request: not enough rights to restrict/unrestrict chat member'
-					if str(e.description) == permission:
-						tmp = '我踢不走 <a href="tg://user?id={user_id}">{username}</a> 這個廣告帳號\n' \
-							'因為你沒給我濫權 (´･_･`)\n' \
-							'所以我要傷心的離開了'.format(
-								user_id=user_id, username=username)
-						bot.sendMessage(
-							chat_id, tmp, parse_mode='html', reply_markup=message_id)
-						bot.leaveChat(chat_id)
-						tmp = '離開惹\n' \
-							'group id: `{gId}`\n' \
-							'group name: {gName}\n'.format(
-								gId=gId, gName=gName)
-						bot.sendMessage(fuckchannel, tmp,
-										parse_mode='markdown')
-					logging.warning(str(e.description))
+		gId = msg['chat']['id']
+		gName = msg['chat']['title']
+		fw = msg['forward_from_chat']
+		if gId != -1001409787631:
+			for x in re_list:
+				re_result = re.findall(x, say)
+				if re_result:
+					tmp = 'Banned\n' \
+					'group id: <code>{gId}</code>\n' \
+					'group name: <code>{gName}</code>\n' \
+					'name: <a href="tg://user?id={user_id}">{username}</a>\n' \
+					'uid: <code>{user_id}</code>\n'.format(
+						gId=gId,
+						gName=gName,
+						username=username.replace('<', '&lt;').replace(
+							'>', '&gt;').replace('&', '&amp;'),
+						user_id=user_id
+					)
+					try:
+						bot.kickChatMember(
+							chat_id, user_id)
+						bot.deleteMessage((chat_id, message_id))
+						bot.sendMessage(fuckchannel, tmp, parse_mode='html')
+						print(tmp)
+					except Exception as e:
+						# Bad Request: message can't be deleted
+						permission = 'Bad Request: not enough rights to restrict/unrestrict chat member'
+						if str(e.description) == permission:
+							tmp = '我踢不走 <a href="tg://user?id={user_id}">{username}</a> 這個廣告帳號\n' \
+								'因為你沒給我濫權 (´･_･`)\n' \
+								'所以我要傷心的離開了'.format(
+									user_id=user_id, username=username)
+							bot.sendMessage(
+								chat_id, tmp, parse_mode='html', reply_markup=message_id)
+							bot.leaveChat(chat_id)
+							tmp = '離開惹\n' \
+								'group id: `{gId}`\n' \
+								'group name: {gName}\n'.format(
+									gId=gId, gName=gName)
+							bot.sendMessage(fuckchannel, tmp,
+											parse_mode='markdown')
+						logging.warning(str(e.description))
 
 
 		# 作者濫權部分。
@@ -370,6 +375,13 @@ def handle(msg):
 			tmp = json.dumps(msg, ensure_ascii=False, indent=4)
 			bot.sendMessage(msg['from']['id'], tmp)#, parse_mode='html')
 			bot.deleteMessage((chat_id, message_id))
+
+		elif say[:5] == '/test' and gId == -1001409787631:
+			for x in re_list:
+				re_result = re.findall(x, say)
+				if re_result:
+					bot.sendMessage(chat_id, f'True {re_result}')
+
 
 		elif say[:5] == '/boom':
 			if 'reply_to_message' in msg and 'forward_from' in msg['reply_to_message']:
