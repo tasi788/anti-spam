@@ -319,6 +319,7 @@ def handle(msg):
 		if 'forward_from_chat' in msg.keys():
 			fw = msg['forward_from_chat']
 		if gId != -1001409787631:
+			return
 			for x in re_list:
 				re_result = re.findall(x, say)
 				if re_result:
