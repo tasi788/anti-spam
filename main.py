@@ -378,6 +378,7 @@ def handle(msg):
 			bot.deleteMessage((chat_id, message_id))
 
 		elif say[:5] == '/test' and gId == -1001409787631:
+			print('trigger')
 			for x in re_list:
 				re_result = re.findall(x, fw['text'])
 				if re_result:
