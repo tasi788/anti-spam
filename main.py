@@ -380,7 +380,7 @@ def handle(msg):
 		elif say[:5] == '/test' and gId == -1001409787631:
 			print('trigger')
 			for x in re_list:
-				re_result = re.findall(x, fw['text'])
+				re_result = re.findall(x, msg['reply_to_message']['text'])
 				if re_result:
 					bot.sendMessage(chat_id, f'True {re_result}')
 
