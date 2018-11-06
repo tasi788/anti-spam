@@ -314,7 +314,8 @@ def handle(msg):
 		#小精靈們的 (´提ω供`)
 		re_list = ['^.*(a.?i.?s.*c.?[o0].?m).*']
 		gId = msg['chat']['id']
-		gName = msg['chat']['title']
+		if 'title' in msg['chat']:
+			gName = msg['chat']['title']
 		if 'forward_from_chat' in msg.keys():
 			fw = msg['forward_from_chat']
 		if gId != -1001409787631:
