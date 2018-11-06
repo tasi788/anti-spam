@@ -315,7 +315,8 @@ def handle(msg):
 		re_list = ['^.*(a.?i.?s.*c.?[o0].?m).*']
 		gId = msg['chat']['id']
 		gName = msg['chat']['title']
-		#fw = msg['forward_from_chat']
+		if 'forward_from_chat' in msg.keys():
+			fw = msg['forward_from_chat']
 		if gId != -1001409787631:
 			for x in re_list:
 				re_result = re.findall(x, say)
@@ -378,7 +379,7 @@ def handle(msg):
 
 		elif say[:5] == '/test' and gId == -1001409787631:
 			for x in re_list:
-				re_result = re.findall(x, say)
+				re_result = re.findall(x, fw['text'])
 				if re_result:
 					bot.sendMessage(chat_id, f'True {re_result}')
 
