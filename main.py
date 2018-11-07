@@ -398,17 +398,17 @@ def handle(msg):
 					bot.sendMessage(chat_id, 'False')
 
 
-		elif say[:5] == '/boom':
-			if 'reply_to_message' in msg and 'forward_from' in msg['reply_to_message']:
-				target = msg['reply_to_message']['forward_from']['id']
-			else:
-				target = say[6:]
-			txt, keyboard = killall.fuck(target)
-			inline = InlineKeyboardMarkup(inline_keyboard=[[keyboard]])
-			if txt:
-				bot.sendMessage(chat_id, f'<a href="tg://user?id={target}">boom 目標</a>\n'+txt, reply_markup=inline, parse_mode='HTML')
-			else:
-				bot.sendMessage(chat_id, '什麼都沒有。')
+			elif say[:5] == '/boom':
+				if 'reply_to_message' in msg and 'forward_from' in msg['reply_to_message']:
+					target = msg['reply_to_message']['forward_from']['id']
+				else:
+					target = say[6:]
+				txt, keyboard = killall.fuck(target)
+				inline = InlineKeyboardMarkup(inline_keyboard=[[keyboard]])
+				if txt:
+					bot.sendMessage(chat_id, f'<a href="tg://user?id={target}">boom 目標</a>\n'+txt, reply_markup=inline, parse_mode='HTML')
+				else:
+					bot.sendMessage(chat_id, '什麼都沒有。')
 
 		elif 'reply_to_message' in msg.keys() and str(user_id) in owner:
 			reply_msgId = msg['reply_to_message']['message_id']
