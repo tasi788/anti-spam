@@ -384,12 +384,18 @@ def handle(msg):
 			bot.sendMessage(msg['from']['id'], tmp)#, parse_mode='html')
 			bot.deleteMessage((chat_id, message_id))
 
-		elif say[:5] == '/test' and gId == -1001409787631:
-			print('trigger')
-			for x in re_list:
-				re_result = re.findall(x, msg['reply_to_message']['text'])
-				if re_result:
-					bot.sendMessage(chat_id, f'True {re_result}')
+		if gId == -1001409787631:
+			if say[:5] == '/test':
+				for x in re_list:
+					re_result = re.findall(x, msg['reply_to_message']['text'])
+					if re_result:
+						bot.sendMessage(chat_id, f'True {re_result}')
+			elif say[:4] == '/chk':
+				tmp = checkName(say[5:])
+				if tmp:
+					bot.sendMessage(chat_id, '{} {}'.format(tmp[0], tmp[1]))
+				else:
+					bot.sendMessage(chat_id, 'False')
 
 
 		elif say[:5] == '/boom':
@@ -404,13 +410,6 @@ def handle(msg):
 			else:
 				bot.sendMessage(chat_id, '什麼都沒有。')
 
-		elif chat_type == 'private':
-			if say[:4] == '/chk':
-				tmp = checkName(say[5:])
-				if tmp:
-					bot.sendMessage(chat_id, '{} {}'.format(tmp[0], tmp[1]))
-				else:
-					bot.sendMessage(chat_id, 'False')
 		elif 'reply_to_message' in msg.keys() and str(user_id) in owner:
 			reply_msgId = msg['reply_to_message']['message_id']
 			reply_user_id = msg['reply_to_message']['from']['id']
