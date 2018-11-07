@@ -61,8 +61,8 @@ loop.create_task(Loadfuck)
 loop.run_forever()'''
 
 def checkName(username, user_id=123):
-	if ad.only_alphabet_chars(username, 'ARABIC'):
-		return True, '是瓜仔'
+	#if ad.only_alphabet_chars(username, 'ARABIC'):
+	#	return True, '是瓜仔'
 	with open('fuckdict.txt', encoding='utf8') as f:
 		fuckname = f.read().split('\n')
 		try:
