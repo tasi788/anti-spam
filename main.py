@@ -317,13 +317,13 @@ def handle(msg):
 		say = msg['text'].lower()
 		#if -1001409787631
 		#小精靈們的 (´提ω供`)
-		re_list = ['^.*(a.?i.?s.*c.?[o0].?m).*']
+		re_list = ['/(d(.*)?d(.*)?a(.*)?v(.*)?[0-9]((.*)?[0-9])(.*)?[点.](.*)?C(.*)?[0O](.*)?M)|(585781612|873014133|926066663)/img']#['^.*(a.?i.?s.*c.?[o0].?m).*']
 		gId = msg['chat']['id']
 		if 'title' in msg['chat']:
 			gName = msg['chat']['title']
 		if 'forward_from_chat' in msg.keys():
 			fw = msg['forward_from_chat']
-		if gId == 00000:#-1001409787631:
+		if gId != -1001409787631:
 			return
 			for x in re_list:
 				re_result = re.findall(x, say)
