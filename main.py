@@ -390,6 +390,8 @@ def handle(msg):
 					re_result = re.findall(x, msg['reply_to_message']['text'])
 					if re_result:
 						bot.sendMessage(chat_id, f'True {re_result}')
+					else:
+						bot.sendMessage(chat_id, 'False.')
 			elif say[:4] == '/chk':
 				tmp = checkName(say[5:])
 				if tmp:
