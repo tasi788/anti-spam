@@ -326,7 +326,7 @@ def handle(msg):
 		if gId != -1001409787631:
 			
 			for x in re_list:
-				re_result = re.findall(x, say)
+				re_result = re.findall(x, say, re.IGNORECASE)
 				if re_result:
 					tmp = 'Banned\n' \
 					'group id: <code>{gId}</code>\n' \
@@ -387,7 +387,7 @@ def handle(msg):
 		if gId == -1001409787631:
 			if say[:5] == '/test':
 				for x in re_list:
-					re_result = re.findall(x, msg['reply_to_message']['text'])
+					re_result = re.findall(x, msg['reply_to_message']['text'], re.IGNORECASE)
 					if re_result:
 						bot.sendMessage(chat_id, f'True {re_result}')
 					else:
