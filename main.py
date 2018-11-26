@@ -473,7 +473,7 @@ bot = telepot.Bot(bot_apitoken)
 
 def looooo():
 	bot.sendMessage(int(owner[0]), '運轉中!')
-	MessageLoop(bot,  {'chat': release,
+	MessageLoop(bot,  {'chat': handle,
 					   'callback_query': on_callback_query}).run_as_thread()
 	while 1:
 		time.sleep(10)
