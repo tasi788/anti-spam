@@ -16,7 +16,7 @@ from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 from pprint import pprint as pp
 from configparser import SafeConfigParser
 from itertools import zip_longest
-import detect
+
 
 
 import killall
