@@ -6,6 +6,7 @@ import time
 import random
 import asyncio
 import pymongo
+from pymongo.errors import ConnectionFailure
 import logging
 import requests
 import telepot
@@ -15,8 +16,7 @@ from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 from pprint import pprint as pp
 from configparser import SafeConfigParser
 from itertools import zip_longest
-from alphabet_detector import AlphabetDetector
-ad = AlphabetDetector()
+import detect
 
 
 import killall
@@ -33,10 +33,16 @@ log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
 '''
 
 # 定義telegram各項參數
+try:
+	client = pymongo.MongoClient("172.17.0.3")#, 27017)
+	client.admin.command('ismaster')
+	db = client.db
+	record = db.join
+	print('DB Loaded')
+except ConnectionFailure:
+	print('DB DOWN...!!')
+	#sys.exit()
 
-client = pymongo.MongoClient("172.17.0.3", 27017)
-db = client.db
-record = db.join
 
 async def Loadfuck():
 	global fuckname, fuckuid
