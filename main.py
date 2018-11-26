@@ -35,7 +35,7 @@ log頻道：https://t.me/joinchat/AAAAAElFrnF0_YOo2a7jNQ
 # 定義telegram各項參數
 try:
 	client = pymongo.MongoClient("172.17.0.3")#, 27017)
-	client.admin.command('ismaster')
+	#client.admin.command('ismaster')
 	db = client.db
 	record = db.join
 	print('DB Loaded')
@@ -181,7 +181,8 @@ def on_callback_query(msg):
 		except Exception as e:
 			print(e)
 			#bot.answerCallbackQuery(query_id, text='踢不走。')
-
+def release(msg):
+	print(msg)
 
 
 def handle(msg):
@@ -468,7 +469,7 @@ bot = telepot.Bot(bot_apitoken)
 
 def looooo():
 	bot.sendMessage(int(owner[0]), '運轉中!')
-	MessageLoop(bot,  {'chat': handle,
+	MessageLoop(bot,  {'chat': release,
 					   'callback_query': on_callback_query}).run_as_thread()
 	while 1:
 		time.sleep(10)
