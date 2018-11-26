@@ -181,6 +181,7 @@ def on_callback_query(msg):
 		except Exception as e:
 			print(e)
 			#bot.answerCallbackQuery(query_id, text='踢不走。')
+
 def release(msg):
 	print(msg)
 
@@ -386,6 +387,9 @@ def handle(msg):
 					print('varlist fuck error')
 					logging.warning(str(e))
 			fucknDel(chat_id, message_id, bang=True)
+		elif say[:5] == '/ping':
+			bot.sendMessage(chat_id, 'pong')
+
 		elif say[:5] == '/info':
 			tmp = json.dumps(msg, ensure_ascii=False, indent=4)
 			bot.sendMessage(msg['from']['id'], tmp)#, parse_mode='html')
