@@ -154,7 +154,7 @@ def on_callback_query(msg):
 			print(e)
 			#bot.answerCallbackQuery(query_id, text='踢不走。')
 	elif status == 'boom':
-		if from_id not in [525239263, 184805205, 162874313]:
+		if from_id not in [525239263, 184805205, 162874313, 308519867, 203073820, 162874313]:
 			bot.answerCallbackQuery(query_id, text='你不是路西法:3')
 			return
 		tmp = killall.fuck(targetuser, act=True)
@@ -325,12 +325,13 @@ def handle(msg):
 		say = msg['text'].lower()
 		#if -1001409787631
 		#小精靈們的 (´提ω供`)
-		re_list = ['(d(.*)?d(.*)?a(.*)?v(.*)?[0-9]((.*)?[0-9])(.*)?[点.](.*)?C(.*)?[0O](.*)?M)|(585781612|873014133|951613797|926066663)']#['^.*(a.?i.?s.*c.?[o0].?m).*']
+		#re_list = ['(d(.*)?d(.*)?a(.*)?v(.*)?[0-9]((.*)?[0-9])(.*)?[点.](.*)?C(.*)?[0O](.*)?M)|(585781612|873014133|951613797|926066663)']#['^.*(a.?i.?s.*c.?[o0].?m).*']
 		gId = msg['chat']['id']
 		if 'title' in msg['chat']:
 			gName = msg['chat']['title']
 		if 'forward_from_chat' in msg.keys():
 			fw = msg['forward_from_chat']
+		'''
 		if gId != -1001409787631:
 			
 			for x in re_list:
@@ -371,7 +372,7 @@ def handle(msg):
 							bot.sendMessage(fuckchannel, tmp,
 											parse_mode='markdown')
 						logging.warning(str(e.description))
-
+		'''
 
 		# 作者濫權部分。
 		if say[:5] == '@bang' and str(user_id) in owner and chat_type == 'private':
